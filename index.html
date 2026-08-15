@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Calendar Converter</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Importing the calendar JS library -->
+    <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.6.14/lunar.js"></script>
+</head>
+<body>
+    <div class="main-container">
+        <h1>Chinese Calendar Converter</h1>
+
+        <!-- Section 1: Lunar to Solar -->
+        <div class="card">
+            <h2>Lunar ➔ Solar</h2>
+            <div class="form-group">
+                <label for="lunarYear">Lunar Year:</label>
+                <input type="number" id="lunarYear" placeholder="e.g., 2026" value="2026">
+            </div>
+            <div class="form-group">
+                <label for="lunarMonth">Lunar Month:</label>
+                <input type="number" id="lunarMonth" min="1" max="12" placeholder="1-12">
+            </div>
+            <div class="form-group checkbox-group">
+                <label>
+                    <input type="checkbox" id="isLeap"> Leap Month?
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="lunarDay">Lunar Day:</label>
+                <input type="number" id="lunarDay" min="1" max="30" placeholder="1-30">
+            </div>
+            <button id="lunarToSolarBtn">Convert to Solar</button>
+            <div id="lunarToSolarResult" class="result-box"></div>
+        </div>
+
+        <!-- Section 2: Solar to Lunar -->
+        <div class="card">
+            <h2>Solar ➔ Lunar</h2>
+            <div class="form-group">
+                <label for="solarYear">Solar Year:</label>
+                <input type="number" id="solarYear" placeholder="e.g., 2026" value="2026">
+            </div>
+            <div class="form-group">
+                <label for="solarMonth">Solar Month:</label>
+                <input type="number" id="solarMonth" min="1" max="12" placeholder="1-12">
+            </div>
+            <div class="form-group">
+                <label for="solarDay">Solar Day:</label>
+                <input type="number" id="solarDay" min="1" max="31" placeholder="1-31">
+            </div>
+            <button id="solarToLunarBtn">Convert to Lunar</button>
+            <div id="solarToLunarResult" class="result-box"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
