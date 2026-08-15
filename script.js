@@ -119,10 +119,20 @@ document.addEventListener('DOMContentLoaded', function() {
             const lunar = Lunar.fromYmd(year, lunarMonth, day);
             const solar = lunar.getSolar();
 
+            // Format Solar Date matching the selected language
+            const jsDate = new Date(solar.getYear(), solar.getMonth() - 1, solar.getDay());
+            const localeMap = { en: 'en-US', zh: 'zh-CN', pt: 'pt-BR' };
+            const formattedDate = jsDate.toLocaleDateString(localeMap[currentLang], {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
             resultBox.style.display = 'block';
             resultBox.style.borderLeftColor = '#2a9d8f';
             resultBox.style.background = '#f1faee';
-            resultBox.innerHTML = `<strong>${t.gregorianLabel}</strong><br>${solar.toYmd()} (${solar.getWeekInChinese()})`;
+            resultBox.innerHTML = `<strong>${t.gregorianLabel}</strong><br>${formattedDate}`;
         } catch (error) {
             resultBox.style.display = 'block';
             resultBox.style.borderLeftColor = '#e63946';
@@ -149,16 +159,31 @@ document.addEventListener('DOMContentLoaded', function() {
             const solar = Solar.fromYmd(year, month, day);
             const lunar = solar.getLunar();
 
+            let lunarStr = '';
+            const lYear = lunar.getYear();
+            const lMonth = Math.abs(lunar.getMonth());
+            const lDay = lunar.getDay();
+            const isLeap = lunar.getMonth() < 0;
+
+            if (currentLang === 'zh') {
+                lunarStr = lunar.toString();
+            } else if (currentLang === 'pt') {
+                lunarStr = `Ano ${lYear}, ${isLeap ? 'Mês Bissexto - ' : 'Mês '} ${lMonth}, Dia ${lDay}`;
+            } else {
+                lunarStr = `Year ${lYear}, ${isLeap ? 'Leap Month - ' : 'Month '} ${lMonth}, Day ${lDay}`;
+            }
+
             resultBox.style.display = 'block';
             resultBox.style.borderLeftColor = '#2a9d8f';
             resultBox.style.background = '#f1faee';
-            resultBox.innerHTML = `<strong>${t.lunarLabel}</strong><br>${lunar.toFullString()}`;
+            resultBox.innerHTML = `<strong>${t.lunarLabel}</strong><br>${lunarStr}`;
         } catch (error) {
-            resultBox.style.display = 'block';
-            resultBox.style.borderLeftColor = '#e63946';
-            resultBox.style.background = '#ffe5e5';
-            resultBox.innerHTML = `<strong>Error:</strong> ${t.errorSolar}`;
-            console.error(error);
-        }
+        resultBox.style.display = 'block';
+        resultBox.style.borderLeftColor = '#e63946';
+        resultBox.style.background = '#ffe5e5';
+        // This will show you the exact technical error
+        resultBox.innerHTML = `<strong>Error:</strong> ${error.message}`;
+        console.error(error);
+    }
     });
 });
