@@ -1,4 +1,4 @@
-// Dictionary for UI Translations (removed langToggleBtn since buttons are now static)
+// Dictionary for UI Translations
 const translations = {
     en: {
         pageTitle: "Chinese Calendar Converter",
@@ -41,21 +41,31 @@ const translations = {
         errorSolar: "无效的阳历日期组合。",
         gregorianLabel: "公历（阳历）日期：",
         lunarLabel: "中国农历日期："
+    },
+    pt: {
+        pageTitle: "Conversor de Calendário Chinês",
+        mainHeading: "Conversor de Calendário Chinês",
+        lunarToSolarHeader: "Lunar ➔ Solar",
+        lunarYearLabel: "Ano Lunar:",
+        lunarMonthLabel: "Mês Lunar:",
+        isLeapLabel: "Mês Bissexto?",
+        lunarDayLabel: "Dia Lunar:",
+        lunarToSolarBtn: "Converter para Solar",
+        solarToLunarHeader: "Solar ➔ Lunar",
+        solarYearLabel: "Ano Solar:",
+        solarMonthLabel: "Mês Solar:",
+        solarDayLabel: "Dia Solar:",
+        solarToLunarBtn: "Converter para Lunar",
+        alertLunar: "Por favor, preencha todos os campos da data lunar.",
+        alertSolar: "Por favor, preencha todos os campos da data solar.",
+        errorLunar: "Combinação de data lunar inválida.",
+        errorSolar: "Combinação de data solar inválida.",
+        gregorianLabel: "Data Gregoriana (Solar):",
+        lunarLabel: "Data Lunar Chinesa:"
     }
 };
 
 let currentLang = 'en';
-
-// Separate Event Listeners for English and Chinese Buttons
-document.getElementById('enBtn').addEventListener('click', function() {
-    currentLang = 'en';
-    updateTexts();
-});
-
-document.getElementById('zhBtn').addEventListener('click', function() {
-    currentLang = 'zh';
-    updateTexts();
-});
 
 function updateTexts() {
     const t = translations[currentLang];
@@ -71,64 +81,84 @@ function updateTexts() {
         }
     });
 }
-// 1. Lunar to Solar Conversion
-document.getElementById('lunarToSolarBtn').addEventListener('click', function() {
-    const year = parseInt(document.getElementById('lunarYear').value);
-    const month = parseInt(document.getElementById('lunarMonth').value);
-    const day = parseInt(document.getElementById('lunarDay').value);
-    const isLeap = document.getElementById('isLeap').checked;
-    const resultBox = document.getElementById('lunarToSolarResult');
-    const t = translations[currentLang];
 
-    if (!year || !month || !day) {
-        alert(t.alertLunar);
-        return;
-    }
+// Wait for DOM to load so buttons are guaranteed to exist before adding listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Language Button Event Listeners
+    document.getElementById('enBtn').addEventListener('click', function() {
+        currentLang = 'en';
+        updateTexts();
+    });
 
-    try {
-        const lunarMonth = isLeap ? -month : month;
-        const lunar = Lunar.fromYmd(year, lunarMonth, day);
-        const solar = lunar.getSolar();
+    document.getElementById('zhBtn').addEventListener('click', function() {
+        currentLang = 'zh';
+        updateTexts();
+    });
 
-        resultBox.style.display = 'block';
-        resultBox.style.borderLeftColor = '#2a9d8f';
-        resultBox.style.background = '#f1faee';
-        resultBox.innerHTML = `<strong>${t.gregorianLabel}</strong><br>${solar.toYmd()} (${solar.getWeekInChinese()})`;
-    } catch (error) {
-        resultBox.style.display = 'block';
-        resultBox.style.borderLeftColor = '#e63946';
-        resultBox.style.background = '#ffe5e5';
-        resultBox.innerHTML = `<strong>Error:</strong> ${t.errorLunar}`;
-        console.error(error);
-    }
-});
+    document.getElementById('ptBtn').addEventListener('click', function() {
+        currentLang = 'pt';
+        updateTexts();
+    });
 
-// 2. Solar to Lunar Conversion
-document.getElementById('solarToLunarBtn').addEventListener('click', function() {
-    const year = parseInt(document.getElementById('solarYear').value);
-    const month = parseInt(document.getElementById('solarMonth').value);
-    const day = parseInt(document.getElementById('solarDay').value);
-    const resultBox = document.getElementById('solarToLunarResult');
-    const t = translations[currentLang];
+    // 1. Lunar to Solar Conversion
+    document.getElementById('lunarToSolarBtn').addEventListener('click', function() {
+        const year = parseInt(document.getElementById('lunarYear').value);
+        const month = parseInt(document.getElementById('lunarMonth').value);
+        const day = parseInt(document.getElementById('lunarDay').value);
+        const isLeap = document.getElementById('isLeap').checked;
+        const resultBox = document.getElementById('lunarToSolarResult');
+        const t = translations[currentLang];
 
-    if (!year || !month || !day) {
-        alert(t.alertSolar);
-        return;
-    }
+        if (!year || !month || !day) {
+            alert(t.alertLunar);
+            return;
+        }
 
-    try {
-        const solar = Solar.fromYmd(year, month, day);
-        const lunar = solar.getLunar();
+        try {
+            const lunarMonth = isLeap ? -month : month;
+            const lunar = Lunar.fromYmd(year, lunarMonth, day);
+            const solar = lunar.getSolar();
 
-        resultBox.style.display = 'block';
-        resultBox.style.borderLeftColor = '#2a9d8f';
-        resultBox.style.background = '#f1faee';
-        resultBox.innerHTML = `<strong>${t.lunarLabel}</strong><br>${lunar.toFullString()}`;
-    } catch (error) {
-        resultBox.style.display = 'block';
-        resultBox.style.borderLeftColor = '#e63946';
-        resultBox.style.background = '#ffe5e5';
-        resultBox.innerHTML = `<strong>Error:</strong> ${t.errorSolar}`;
-        console.error(error);
-    }
+            resultBox.style.display = 'block';
+            resultBox.style.borderLeftColor = '#2a9d8f';
+            resultBox.style.background = '#f1faee';
+            resultBox.innerHTML = `<strong>${t.gregorianLabel}</strong><br>${solar.toYmd()} (${solar.getWeekInChinese()})`;
+        } catch (error) {
+            resultBox.style.display = 'block';
+            resultBox.style.borderLeftColor = '#e63946';
+            resultBox.style.background = '#ffe5e5';
+            resultBox.innerHTML = `<strong>Error:</strong> ${t.errorLunar}`;
+            console.error(error);
+        }
+    });
+
+    // 2. Solar to Lunar Conversion
+    document.getElementById('solarToLunarBtn').addEventListener('click', function() {
+        const year = parseInt(document.getElementById('solarYear').value);
+        const month = parseInt(document.getElementById('solarMonth').value);
+        const day = parseInt(document.getElementById('solarDay').value);
+        const resultBox = document.getElementById('solarToLunarResult');
+        const t = translations[currentLang];
+
+        if (!year || !month || !day) {
+            alert(t.alertSolar);
+            return;
+        }
+
+        try {
+            const solar = Solar.fromYmd(year, month, day);
+            const lunar = solar.getLunar();
+
+            resultBox.style.display = 'block';
+            resultBox.style.borderLeftColor = '#2a9d8f';
+            resultBox.style.background = '#f1faee';
+            resultBox.innerHTML = `<strong>${t.lunarLabel}</strong><br>${lunar.toFullString()}`;
+        } catch (error) {
+            resultBox.style.display = 'block';
+            resultBox.style.borderLeftColor = '#e63946';
+            resultBox.style.background = '#ffe5e5';
+            resultBox.innerHTML = `<strong>Error:</strong> ${t.errorSolar}`;
+            console.error(error);
+        }
+    });
 });
