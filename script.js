@@ -3,6 +3,8 @@ const translations = {
     en: {
         pageTitle: "Chinese Calendar Converter",
         mainHeading: "Chinese Calendar Converter",
+        introText: "This is a simple web tool to convert lunisolar calendar dates to the solar calendar and vice versa. If you, like me, are tired of not knowing the date of your chinese friends' birthday, use this tool and be a nice buddy. You are welcome.",
+        recommendationText: "Go watch Pursuit of Jade, please. 🤓",
         lunarToSolarHeader: "Lunar ➔ Solar",
         lunarYearLabel: "Lunar Year:",
         lunarMonthLabel: "Lunar Month:",
@@ -24,6 +26,8 @@ const translations = {
     zh: {
         pageTitle: "中国农历转换器",
         mainHeading: "中国农历转换器",
+        introText: "这是一个用于在农历和阳历之间进行转换的简单网页工具。如果你和我一样，经常不知道中国朋友的生日是什么时候，用这个工具来当一个贴心的好朋友吧。不客气。",
+        recommendationText: "请 去看《逐玉》吧。🤓",
         lunarToSolarHeader: "农历 ➔ 阳历",
         lunarYearLabel: "农历年份：",
         lunarMonthLabel: "农历月份：",
@@ -45,6 +49,8 @@ const translations = {
     pt: {
         pageTitle: "Conversor de Calendário Chinês",
         mainHeading: "Conversor de Calendário Chinês",
+        introText: "Esta é uma ferramenta web simples para converter datas do calendário lunissolar para o calendário solar e vice-versa. Se você, assim como eu, está cansado de não saber a data do aniversário do seu amigo chinês, use esta ferramenta e seja um bom amigo. De nada.",
+        recommendationText: "Vá assistir Por Você (Em busca de Jade) na Netflix, por favor. 🤓",
         lunarToSolarHeader: "Lunar ➔ Solar",
         lunarYearLabel: "Ano Lunar:",
         lunarMonthLabel: "Mês Lunar:",
