@@ -1,3 +1,76 @@
+// Dictionary for UI Translations (removed langToggleBtn since buttons are now static)
+const translations = {
+    en: {
+        pageTitle: "Chinese Calendar Converter",
+        mainHeading: "Chinese Calendar Converter",
+        lunarToSolarHeader: "Lunar ➔ Solar",
+        lunarYearLabel: "Lunar Year:",
+        lunarMonthLabel: "Lunar Month:",
+        isLeapLabel: "Leap Month?",
+        lunarDayLabel: "Lunar Day:",
+        lunarToSolarBtn: "Convert to Solar",
+        solarToLunarHeader: "Solar ➔ Lunar",
+        solarYearLabel: "Solar Year:",
+        solarMonthLabel: "Solar Month:",
+        solarDayLabel: "Solar Day:",
+        solarToLunarBtn: "Convert to Lunar",
+        alertLunar: "Please fill out all lunar date fields.",
+        alertSolar: "Please fill out all solar date fields.",
+        errorLunar: "Invalid lunar date combination.",
+        errorSolar: "Invalid solar date combination.",
+        gregorianLabel: "Gregorian (Solar) Date:",
+        lunarLabel: "Chinese Lunar Date:"
+    },
+    zh: {
+        pageTitle: "中国农历转换器",
+        mainHeading: "中国农历转换器",
+        lunarToSolarHeader: "农历 ➔ 阳历",
+        lunarYearLabel: "农历年份：",
+        lunarMonthLabel: "农历月份：",
+        isLeapLabel: "闰月？",
+        lunarDayLabel: "农历日期：",
+        lunarToSolarBtn: "转换成阳历",
+        solarToLunarHeader: "阳历 ➔ 农历",
+        solarYearLabel: "阳历年份：",
+        solarMonthLabel: "阳历月份：",
+        solarDayLabel: "阳历日期：",
+        solarToLunarBtn: "转换成农历",
+        alertLunar: "请填写所有的农历日期字段。",
+        alertSolar: "请填写所有的阳历日期字段。",
+        errorLunar: "无效的农历日期组合。",
+        errorSolar: "无效的阳历日期组合。",
+        gregorianLabel: "公历（阳历）日期：",
+        lunarLabel: "中国农历日期："
+    }
+};
+
+let currentLang = 'en';
+
+// Separate Event Listeners for English and Chinese Buttons
+document.getElementById('enBtn').addEventListener('click', function() {
+    currentLang = 'en';
+    updateTexts();
+});
+
+document.getElementById('zhBtn').addEventListener('click', function() {
+    currentLang = 'zh';
+    updateTexts();
+});
+
+function updateTexts() {
+    const t = translations[currentLang];
+    
+    // Update browser tab title
+    document.title = t.pageTitle;
+
+    // Update all elements with data-i18n attribute automatically
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) {
+            el.innerText = t[key];
+        }
+    });
+}
 // 1. Lunar to Solar Conversion
 document.getElementById('lunarToSolarBtn').addEventListener('click', function() {
     const year = parseInt(document.getElementById('lunarYear').value);
@@ -5,9 +78,10 @@ document.getElementById('lunarToSolarBtn').addEventListener('click', function() 
     const day = parseInt(document.getElementById('lunarDay').value);
     const isLeap = document.getElementById('isLeap').checked;
     const resultBox = document.getElementById('lunarToSolarResult');
+    const t = translations[currentLang];
 
     if (!year || !month || !day) {
-        alert('Please fill out all lunar date fields.');
+        alert(t.alertLunar);
         return;
     }
 
@@ -19,12 +93,12 @@ document.getElementById('lunarToSolarBtn').addEventListener('click', function() 
         resultBox.style.display = 'block';
         resultBox.style.borderLeftColor = '#2a9d8f';
         resultBox.style.background = '#f1faee';
-        resultBox.innerHTML = `<strong>Gregorian (Solar) Date:</strong><br>${solar.toYmd()} (${solar.getWeekInChinese()})`;
+        resultBox.innerHTML = `<strong>${t.gregorianLabel}</strong><br>${solar.toYmd()} (${solar.getWeekInChinese()})`;
     } catch (error) {
         resultBox.style.display = 'block';
         resultBox.style.borderLeftColor = '#e63946';
         resultBox.style.background = '#ffe5e5';
-        resultBox.innerHTML = `<strong>Error:</strong> Invalid lunar date combination.`;
+        resultBox.innerHTML = `<strong>Error:</strong> ${t.errorLunar}`;
         console.error(error);
     }
 });
@@ -35,9 +109,10 @@ document.getElementById('solarToLunarBtn').addEventListener('click', function() 
     const month = parseInt(document.getElementById('solarMonth').value);
     const day = parseInt(document.getElementById('solarDay').value);
     const resultBox = document.getElementById('solarToLunarResult');
+    const t = translations[currentLang];
 
     if (!year || !month || !day) {
-        alert('Please fill out all solar date fields.');
+        alert(t.alertSolar);
         return;
     }
 
@@ -48,12 +123,12 @@ document.getElementById('solarToLunarBtn').addEventListener('click', function() 
         resultBox.style.display = 'block';
         resultBox.style.borderLeftColor = '#2a9d8f';
         resultBox.style.background = '#f1faee';
-        resultBox.innerHTML = `<strong>Chinese Lunar Date:</strong><br>${lunar.toFullString()}`;
+        resultBox.innerHTML = `<strong>${t.lunarLabel}</strong><br>${lunar.toFullString()}`;
     } catch (error) {
         resultBox.style.display = 'block';
         resultBox.style.borderLeftColor = '#e63946';
         resultBox.style.background = '#ffe5e5';
-        resultBox.innerHTML = `<strong>Error:</strong> Invalid solar date combination.`;
+        resultBox.innerHTML = `<strong>Error:</strong> ${t.errorSolar}`;
         console.error(error);
     }
 });
